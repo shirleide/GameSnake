@@ -24,6 +24,8 @@ function criarSnake() {
     }
 }
 
+Function
+
 //Para a cobrinha não sumir da tela
 document.addEventListener('keydown', update);
 
