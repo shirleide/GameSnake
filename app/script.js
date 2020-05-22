@@ -30,7 +30,7 @@ function criarSnake() {
 }
 
 //Comida 
-function drawComida(){
+function drawComida() {
     context.fillStyle = "red";
     context.fillRect(comida.x, comida.y, box, box);
 
@@ -40,11 +40,11 @@ function drawComida(){
 document.addEventListener('keydown', update);
 
 //Definição das teclas + direções
-function update(event){
-    if(event.keyCode == 37 && direcao != "right") direcao = "left";
-    if(event.keyCode == 38 && direcao != "down") direcao = "up";
-    if(event.keyCode == 39 && direcao != "left") direcao = "right";
-    if(event.keyCode == 40 && direcao != "up") direcao = "down";
+function update(event) {
+    if (event.keyCode == 37 && direcao != "right") direcao = "left";
+    if (event.keyCode == 38 && direcao != "down") direcao = "up";
+    if (event.keyCode == 39 && direcao != "left") direcao = "right";
+    if (event.keyCode == 40 && direcao != "up") direcao = "down";
 
 
 }
@@ -52,11 +52,17 @@ function update(event){
 //Para iniciar o jogo
 function iniciarJogo() {
     //Para cobrinha continuar na tela e atravessar 
-    if(snake[0].x > 15 * box && direcao == "right") snake[0].x = 0;
-    if(snake[0].x < 0 * box && direcao == "left") snake[0].x = 16 * box;
-    if(snake[0].y > 15 * box && direcao == "down") snake[0].y = 0;
-    if(snake[0].y < 0 * box && direcao == "up") snake[0].y = 16 * box;
+    if (snake[0].x > 15 * box && direcao == "right") snake[0].x = 0;
+    if (snake[0].x < 0 * box && direcao == "left") snake[0].x = 16 * box;
+    if (snake[0].y > 15 * box && direcao == "down") snake[0].y = 0;
+    if (snake[0].y < 0 * box && direcao == "up") snake[0].y = 16 * box;
 
+    for(i = 1; i < snake.length; i++ ){
+        if(snake[0].x == snake[i].x && snake[0].y == snake[i].y){
+            clearInterval(jogo);
+            alert('Game Over =( ')
+        }
+    }
 
     //Chamada de funções
     criarBG();
@@ -68,14 +74,20 @@ function iniciarJogo() {
     let snakeY = snake[0].y;
 
     //Direções
-    if(direcao == "right") snakeX += box
-    if(direcao == "left") snakeX -= box
-    if(direcao == "up") snakeY -= box
-    if(direcao == "down") snakeY += box
+    if (direcao == "right") snakeX += box
+    if (direcao == "left") snakeX -= box
+    if (direcao == "up") snakeY -= box
+    if (direcao == "down") snakeY += box
 
-    //Adicionando o corpo
-    snake.pop();
+    if (snakeX != comida.x || snakeY != comida.y) {
+        snake.pop();
+    } 
+    else{comida.x = Math.floor(Math.random() * 15 + 1) * box,
+         comida.y = Math.floor(Math.random() * 15 + 1) * box
+    }
+    
 
+    //Adicionando o corpo ---> cabeça
     let newHead = {
         x: snakeX,
         y: snakeY
